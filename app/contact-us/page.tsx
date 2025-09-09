@@ -73,16 +73,16 @@ export default function ContactUs() {
           </div>
 
           <div className="flex gap-4">
-            <a href="mailto:your-email@example.com" className="hover:text-primary transition-colors">
+            <a href="yadav.luv2004@gmail.com" className="hover:text-primary transition-colors">
               <Mail size={20} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+            <a href="https://www.linkedin.com/in/luvyadav/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
               <Linkedin size={20} />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+            <a href="https://x.com/yadav_luv2004?t=U3j9xQyP0YUOFmz2HMMlxg&s=09" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
               <Twitter size={20} />
             </a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+            <a href="https://github.com/yadavluv2004" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
               <Github size={20} />
             </a>
           </div>
