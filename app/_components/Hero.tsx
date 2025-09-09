@@ -91,7 +91,7 @@ function Hero() {
           <HeroVideoDialog
             className="block dark:hidden"
             animationStyle="from-center"
-            videoSrc="https://www.example.com/dummy-video"
+            videoSrc="/vedio.mp4"
             thumbnailSrc="https://mma.prnewswire.com/media/2401528/1_MindtripProduct.jpg?p=facebook"
             thumbnailAlt="Dummy Video Thumbnail"
           />
