@@ -17,7 +17,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 interface CarouselProps {
-  items: JSX.Element[];
+  items: React.ReactNode[]; // ✅ React.ReactNode instead of JSX.Element
   initialScroll?: number;
 }
 
@@ -86,7 +86,11 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             {items.map((item, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 * index, ease: "easeOut", once: true } }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, delay: 0.2 * index, ease: "easeOut" },
+                }}
                 key={"card" + index}
                 className="rounded-3xl last:pr-[5%] md:last:pr-[33%]"
               >
@@ -95,6 +99,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             ))}
           </div>
         </div>
+
         <div className="mr-10 flex justify-end gap-2">
           <button
             className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
@@ -126,14 +131,13 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
     onCardClose(index);
   };
 
-  useOutsideClick(containerRef, handleClose);
+  useOutsideClick(containerRef as React.RefObject<HTMLDivElement>, handleClose);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        handleClose();
-      }
+      if (event.key === "Escape") handleClose();
     }
+
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
 
@@ -148,7 +152,12 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
       <AnimatePresence>
         {open && (
           <div className="fixed inset-0 z-50 h-screen overflow-auto">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 h-full w-full bg-black/80 backdrop-blur-lg" />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 h-full w-full bg-black/80 backdrop-blur-lg"
+            />
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -163,10 +172,16 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
               >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
-              <motion.p layoutId={layout ? `category-${card.title}` : undefined} className="text-base font-medium text-black dark:text-white">
+              <motion.p
+                layoutId={layout ? `category-${card.title}` : undefined}
+                className="text-base font-medium text-black dark:text-white"
+              >
                 {card.category}
               </motion.p>
-              <motion.p layoutId={layout ? `title-${card.title}` : undefined} className="mt-4 text-2xl font-semibold text-neutral-700 md:text-5xl dark:text-white">
+              <motion.p
+                layoutId={layout ? `title-${card.title}` : undefined}
+                className="mt-4 text-2xl font-semibold text-neutral-700 md:text-5xl dark:text-white"
+              >
                 {card.title}
               </motion.p>
               <div className="py-10">{card.content}</div>
@@ -174,6 +189,7 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
           </div>
         )}
       </AnimatePresence>
+
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
@@ -181,10 +197,16 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
         <div className="relative z-40 p-8">
-          <motion.p layoutId={layout ? `category-${card.category}` : undefined} className="text-left font-sans text-sm font-medium text-white md:text-base">
+          <motion.p
+            layoutId={layout ? `category-${card.category}` : undefined}
+            className="text-left font-sans text-sm font-medium text-white md:text-base"
+          >
             {card.category}
           </motion.p>
-          <motion.p layoutId={layout ? `title-${card.title}` : undefined} className="mt-2 max-w-xs text-left font-sans text-xl font-semibold text-white md:text-3xl">
+          <motion.p
+            layoutId={layout ? `title-${card.title}` : undefined}
+            className="mt-2 max-w-xs text-left font-sans text-xl font-semibold text-white md:text-3xl"
+          >
             {card.title}
           </motion.p>
         </div>
@@ -194,7 +216,20 @@ export const Card = ({ card, index, layout = false }: { card: Card; index: numbe
   );
 };
 
-export const BlurImage = ({ height, width, src, className, alt, ...rest }: any) => {
+export const BlurImage = ({
+  height,
+  width,
+  src,
+  className,
+  alt,
+  ...rest
+}: {
+  height?: number;
+  width?: number;
+  src: string;
+  className?: string;
+  alt?: string;
+} & React.ImgHTMLAttributes<HTMLImageElement>) => {
   return (
     <img
       className={cn("h-full w-full object-cover", className)}
@@ -208,5 +243,3 @@ export const BlurImage = ({ height, width, src, className, alt, ...rest }: any) 
     />
   );
 };
-
-

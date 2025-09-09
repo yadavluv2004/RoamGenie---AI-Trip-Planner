@@ -4,11 +4,11 @@ import React, { useEffect, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { useTripDetail } from '@/app/provider';
-import { Activity, Itinerary } from './ChatBox';
+import { Activity } from './ChatBox'; // Only need Activity type
 
 function GlobalMap() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null); // ✅ keep map instance
+  const mapRef = useRef<mapboxgl.Map | null>(null); // Keep map instance
   const { tripDetailInfo } = useTripDetail();
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function GlobalMap() {
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || '';
 
-    // ✅ Create the map and store in ref
+    // Create the map and store in ref
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v12',
@@ -28,8 +28,10 @@ function GlobalMap() {
     const bounds = new mapboxgl.LngLatBounds();
     const markers: mapboxgl.Marker[] = [];
 
-    tripDetailInfo?.itinerary?.forEach((itinerary: Itinerary) => {
-      itinerary.activities?.forEach((activity: Activity) => {
+    // ✅ Use single itinerary object
+    const itinerary = tripDetailInfo?.itinerary;
+    if (itinerary?.activities) {
+      itinerary.activities.forEach((activity: Activity) => {
         if (
           activity?.geo_coordinates &&
           typeof activity.geo_coordinates.longitude === 'number' &&
@@ -50,7 +52,7 @@ function GlobalMap() {
             activity.geo_coordinates.latitude,
           ];
 
-          // ✅ Animate to each activity
+          // Animate to each activity
           mapRef.current!.flyTo({
             center: coordinates,
             zoom: 8,
@@ -60,7 +62,7 @@ function GlobalMap() {
           bounds.extend(coordinates);
         }
       });
-    });
+    }
 
     if (!bounds.isEmpty()) {
       mapRef.current.fitBounds(bounds, { padding: 50 });
