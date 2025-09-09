@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { useTripDetail } from '@/app/provider';
-import { Activity } from './ChatBox'; // Only need Activity type
+import { Activity, Itinerary } from './ChatBox';
 
 function GlobalMap() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -28,10 +28,9 @@ function GlobalMap() {
     const bounds = new mapboxgl.LngLatBounds();
     const markers: mapboxgl.Marker[] = [];
 
-    // ✅ Use single itinerary object
-    const itinerary = tripDetailInfo?.itinerary;
-    if (itinerary?.activities) {
-      itinerary.activities.forEach((activity: Activity) => {
+    // ✅ Loop through itinerary array
+    tripDetailInfo?.itinerary?.forEach((day: Itinerary) => {
+      day.activities?.forEach((activity: Activity) => {
         if (
           activity?.geo_coordinates &&
           typeof activity.geo_coordinates.longitude === 'number' &&
@@ -62,7 +61,7 @@ function GlobalMap() {
           bounds.extend(coordinates);
         }
       });
-    }
+    });
 
     if (!bounds.isEmpty()) {
       mapRef.current.fitBounds(bounds, { padding: 50 });

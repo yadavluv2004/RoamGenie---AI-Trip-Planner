@@ -24,12 +24,13 @@ type Message = {
 export type TripInfo = {
   budget: string;
   destination: string;
-  duration: string; // ✅ fixed spelling
+  duration: string;
   group_size: string;
   origin: string;
   hotels: Hotel[];
-  itinerary: Itinerary;
+  itinerary: Itinerary[]; // ✅ changed to array
 };
+
 
 export type Hotel = {
   hotel_name: string;
