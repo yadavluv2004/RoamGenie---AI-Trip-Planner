@@ -31,7 +31,7 @@ function Header() {
     <div className="flex justify-between items-center p-4">
       <div className="flex gap-2 items-center">
         <Image src="/logo.svg" alt="logo" width={30} height={30} />
-        <h2 className="font-bold text-2xl">RoamGenie - AI Trip Planner</h2>
+        <h2 className="font-bold text-2xl sm:text-base md:text-lg">RoamGenie - AI Trip Planner</h2>
       </div>
       <div className="flex gap-5 items-center">
         {menuOptions.map((menu, index) => (
@@ -42,7 +42,8 @@ function Header() {
           </Link>
         ))}
       </div>
-      <div className="flex gap-5 items-center">
+      <div className="flex gap-5 items-center hidden sm:flex
+      ">
         {!user ? (
           <SignInButton mode="modal">
             <Button>Get Started</Button>
